@@ -11,7 +11,7 @@
 w25qxx_t w25qxx;
 extern SPI_HandleTypeDef _W25QXX_SPI;
 #if EE24_RTOS == EE24_RTOS_DISABLE
-#define W25qxx_Delay HAL_Delay
+#define W25qxx_Delay dumb_delay
 #elif EE24_RTOS == EE24_RTOS_CMSIS_V1
 #include "cmsis_os.h"
 #include "freertos.h"
@@ -21,6 +21,12 @@ extern SPI_HandleTypeDef _W25QXX_SPI;
 #elif EE24_RTOS == EE24_RTOS_THREADX
 #include "app_threadx.h"
 #endif
+
+void dumb_delay(uint32_t delay){
+	for (uint32_t var = 0; var < delay*84; ++var) {
+
+	}
+}
 //###################################################################################################################
 uint8_t W25qxx_Spi(uint8_t Data)
 {
