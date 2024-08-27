@@ -862,7 +862,6 @@ USBD_StatusTypeDef USBD_LL_SetSpeed(USBD_HandleTypeDef *pdev,
 
 USBD_StatusTypeDef USBD_LL_Suspend(USBD_HandleTypeDef *pdev)
 {
-  USB_STATE_Changed(pdev->dev_state, pdev->dev_old_state);
   pdev->dev_old_state = pdev->dev_state;
   pdev->dev_state = USBD_STATE_SUSPENDED;
 

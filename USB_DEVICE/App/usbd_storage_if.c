@@ -63,7 +63,7 @@
   */
 
 #define STORAGE_LUN_NBR                  1
-#define STORAGE_BLK_NBR                  0xEF
+#define STORAGE_BLK_NBR                  0x10000
 #define STORAGE_BLK_SIZ                  0x200
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
@@ -128,7 +128,7 @@ const int8_t STORAGE_Inquirydata_FS[] = {/* 36 */
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
-uint8_t msc_ram[STORAGE_BLK_NBR][STORAGE_BLK_SIZ];
+
 /* USER CODE END EXPORTED_VARIABLES */
 
 /**
@@ -240,8 +240,10 @@ int8_t STORAGE_IsWriteProtected_FS(uint8_t lun)
 int8_t STORAGE_Read_FS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_len)
 {
   /* USER CODE BEGIN 6 */
-	memcpy(buf, msc_ram[blk_addr], blk_len * STORAGE_BLK_SIZ);
-
+  UNUSED(lun);
+  UNUSED(buf);
+  UNUSED(blk_addr);
+  UNUSED(blk_len);
 
   return (USBD_OK);
   /* USER CODE END 6 */
@@ -258,7 +260,10 @@ int8_t STORAGE_Read_FS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t bl
 int8_t STORAGE_Write_FS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_len)
 {
   /* USER CODE BEGIN 7 */
-	memcpy(msc_ram[blk_addr], buf, blk_len * STORAGE_BLK_SIZ);
+  UNUSED(lun);
+  UNUSED(buf);
+  UNUSED(blk_addr);
+  UNUSED(blk_len);
 
   return (USBD_OK);
   /* USER CODE END 7 */

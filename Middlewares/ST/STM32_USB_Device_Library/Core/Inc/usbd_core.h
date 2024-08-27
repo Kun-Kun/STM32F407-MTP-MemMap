@@ -150,7 +150,6 @@ void  USBD_LL_Delay(uint32_t Delay);
 
 void *USBD_GetEpDesc(uint8_t *pConfDesc, uint8_t EpAddr);
 USBD_DescHeaderTypeDef *USBD_GetNextDesc(uint8_t *pbuf, uint16_t *ptr);
-extern void USB_STATE_Changed(uint8_t dev_state, uint8_t dev_old_state);
 
 /**
   * @}

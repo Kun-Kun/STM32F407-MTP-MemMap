@@ -118,7 +118,7 @@ DRESULT USER_read (
 )
 {
   /* USER CODE BEGIN READ */
-	memcpy(buff, msc_ram[sector], count * STORAGE_BLK_SIZ);
+	//memcpy(buff, msc_ram[sector], count * STORAGE_BLK_SIZ);
 
     return RES_OK;
   /* USER CODE END READ */
@@ -141,7 +141,7 @@ DRESULT USER_write (
 )
 {
   /* USER CODE BEGIN WRITE */
-	memcpy(msc_ram[sector], buff, count * STORAGE_BLK_SIZ);
+	//memcpy(msc_ram[sector], buff, count * STORAGE_BLK_SIZ);
 
   /* USER CODE HERE */
     return RES_OK;
@@ -158,9 +158,9 @@ DRESULT USER_write (
   */
 #if _USE_IOCTL == 1
 DRESULT USER_ioctl (
- BYTE pdrv,      /* Physical drive nmuber (0..) */
- BYTE cmd,       /* Control code */
- void *buff      /* Buffer to send/receive control data */
+	BYTE pdrv,      /* Physical drive nmuber (0..) */
+	BYTE cmd,       /* Control code */
+	void *buff      /* Buffer to send/receive control data */
 )
 {
   /* USER CODE BEGIN IOCTL */
