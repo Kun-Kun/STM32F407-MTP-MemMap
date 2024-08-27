@@ -18,13 +18,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "fatfs.h"
 #include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "ee24.h"
-#include "ff.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,9 +46,6 @@ I2C_HandleTypeDef hi2c2;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-EE24_HandleTypeDef ee24;
-uint8_t data[1024];
-BYTE work[512];
 
 /* USER CODE END PV */
 
@@ -99,31 +94,8 @@ int main(void)
   MX_I2C2_Init();
   MX_USB_DEVICE_Init();
   MX_SPI1_Init();
-  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
-  FRESULT result;
 
-  result = f_mount(&USERFatFS, USERPath, 1);
-  if (result != FR_OK)
-  {
-
-	  result = f_mkfs(USERPath, FM_FAT, 0, work, sizeof work);
-          //printf("Ошибка монтирования диска %d\r\n", result);
-  }
-  result = f_mount(&USERFatFS, USERPath, 1);
-
-  if (EE24_Init(&ee24, &hi2c2, EE24_ADDRESS_DEFAULT))
-  {
-    EE24_Read(&ee24, 0, data, 1024, 1000);
-  }
-  result = f_open(&USERFile, "read.bin", FA_CREATE_NEW | FA_WRITE);
-  /* Write a message */
-
-  UINT bw;            /* Bytes written */
-  result = f_write(&USERFile, data, 1024, &bw);
-
-  /* Close the file */
-  f_close(&USERFile);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -133,6 +105,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
@@ -261,6 +234,7 @@ static void MX_SPI1_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 /* USER CODE BEGIN MX_GPIO_Init_1 */
 /* USER CODE END MX_GPIO_Init_1 */
 
@@ -268,6 +242,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(FLASH_CS_GPIO_Port, FLASH_CS_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : FLASH_CS_Pin */
+  GPIO_InitStruct.Pin = FLASH_CS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(FLASH_CS_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

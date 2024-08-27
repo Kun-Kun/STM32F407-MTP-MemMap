@@ -23,8 +23,8 @@
 #include "usb_device.h"
 #include "usbd_core.h"
 #include "usbd_desc.h"
-#include "usbd_msc.h"
-#include "usbd_storage_if.h"
+#include "usbd_mtp.h"
+#include "usbd_mtp_if_template.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -72,11 +72,11 @@ void MX_USB_DEVICE_Init(void)
   {
     Error_Handler();
   }
-  if (USBD_RegisterClass(&hUsbDeviceFS, &USBD_MSC) != USBD_OK)
+  if (USBD_RegisterClass(&hUsbDeviceFS, &USBD_MTP) != USBD_OK)
   {
     Error_Handler();
   }
-  if (USBD_MSC_RegisterStorage(&hUsbDeviceFS, &USBD_Storage_Interface_fops_FS) != USBD_OK)
+  if (USBD_MTP_RegisterInterface(&hUsbDeviceFS, &USBD_MTP_fops) != USBD_OK)
   {
     Error_Handler();
   }
